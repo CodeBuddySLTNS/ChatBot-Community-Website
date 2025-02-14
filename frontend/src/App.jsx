@@ -1,7 +1,7 @@
 import { useState, createContext, useEffect } from "react";
 import { useFetch } from "./hooks/Requests";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import config from "./config.json";
+import config from "../config.json";
 
 // pages
 import Home from "./views/Home";
@@ -30,15 +30,12 @@ export const ContextData = createContext();
 
 function App() {
   const [active, setActive] = useState({});
-  const [toggle, setToggle] = useState(false);
   const [views, setViews] = useState(null);
   const [userData, setUserData] = useState(null);
 
   const contextValue = {
     active,
     setActive,
-    toggle,
-    setToggle,
     views,
     setViews,
     userData,
@@ -46,7 +43,7 @@ function App() {
   };
 
   const { data } = useFetch("/user");
-  const { data: viewscount } = config.production ? useFetch("/views") : { data: null};
+  const { data: viewscount } = config.production ? useFetch("/views") : { data: null };
 
   useEffect(() => {
     if (data) setUserData(data.response);
