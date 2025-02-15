@@ -2,12 +2,17 @@ import { create } from "zustand";
 
 export const useMainStore = create(set => ({
   user: null,
-  toggleMenuStatus: false,
-
   setUser: user => {
-    set({ userData: user });
+    set({ user: user });
   },
+
+  isMenuOpen: false,
   toggleMenu: status => {
-    set({ toggleMenuStatus: status });
+    set({ isMenuOpen: status });
+  },
+
+  views: null,
+  setViews: count => {
+    set({ views: count });
   }
 }));

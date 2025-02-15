@@ -1,6 +1,8 @@
 import { useState, createContext, useEffect } from "react";
-import { useFetch } from "./hooks/Requests";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useFetch } from "./hooks/Requests";
+import { useQuery } from "@tanstack/react-query";
+import { useMainStore } from "./store";
 import config from "../config.json";
 
 // pages
@@ -30,25 +32,45 @@ export const ContextData = createContext();
 
 function App() {
   const [active, setActive] = useState({});
-  const [views, setViews] = useState(null);
-  const [userData, setUserData] = useState(null);
+  const userd = useMainStore(state => state);
+  const setUser = useMainStore(state => state.setUser);
+  const setViews = useMainStore(state => state.setViews);
 
   const contextValue = {
     active,
-    setActive,
-    views,
-    setViews,
-    userData,
-    setUserData
+    setActive
   };
 
-  const { data } = useFetch("/user");
-  const { data: viewscount } = config.production ? useFetch("/views") : { data: null };
+  const fetchUser = async () => {
+    const url = config.production
+      ? `${config.server}/user`
+      : `${config.devServer}/user`;
+    const response = await fetch(url);
+    return response.json();
+  };
+
+  const fetchViews = async () => {
+    const url = config.production
+      ? `${config.server}/views`
+      : `${config.devServer}/views`;
+    const response = await fetch(url);
+    return response.json();
+  };
+
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser
+  });
+
+  const { data: viewscount } = useQuery({
+    queryKey: ["views"],
+    queryFn: fetchViews
+  });
 
   useEffect(() => {
-    if (data) setUserData(data.response);
-    if (viewscount) setViews(viewscount?.response?.count);
-  }, [data, viewscount]);
+    if (user) setUser(user.response);
+    if (viewscount) setViews(viewscount.response?.count);
+  }, [user, viewscount]);
 
   return (
     <ContextData.Provider value={contextValue}>

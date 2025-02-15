@@ -1,40 +1,46 @@
-import { useContext } from 'react';
-import { ContextData } from '../App';
-import { FaXmark } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
-import { FaPlusCircle, FaBook, FaNewspaper } from "react-icons/fa";
+import { FaXmark } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import { FaPlusCircle, FaBook, FaGlobe } from "react-icons/fa";
 import { useMainStore } from "../store";
 
-import defaultProfile from '../assets/defaultProfile.png';
+import defaultProfile from "../assets/defaultProfile.png";
 
 const Menu = () => {
-  const toggleMenuStatus = useMainStore(state => state.toggleMenuStatus);
+  const isMenuOpen = useMainStore(state => state.isMenuOpen);
   const toggleMenu = useMainStore(state => state.toggleMenu);
-  const { views, userData, setUserData } = useContext(ContextData);
-  
+  const userData = useMainStore(state => state.user);
+  const setUser = useMainStore(state => state.setUser);
+  const views = useMainStore(state => state.views);
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setUserData(null);
+    localStorage.removeItem("token");
+    setUser(null);
     toggleMenu(false);
-  }
-  
+  };
+
   return (
-    <div className="menu" style={{ width: toggleMenuStatus && '180px' }}>
+    <div className="menu" style={{ width: isMenuOpen && "180px" }}>
       <div className="profile">
-        <div className="profilePic" style={{ backgroundImage: `url("${ userData?.img ? userData?.img : defaultProfile}")` }}></div>
+        <div
+          className="profilePic"
+          style={{
+            backgroundImage: `url("${
+              userData?.img ? userData?.img : defaultProfile
+            }")`
+          }}
+        ></div>
         <div className="profileInfo">
-          {
-            userData ?
+          {userData ? (
             <>
-              <p>{ userData.name }</p>
-              <span>{ userData.role }</span>
-            </> :
+              <p>{userData.name}</p>
+              <span>{userData.role}</span>
+            </>
+          ) : (
             <>
               <Link to="/login">
                 <button onClick={() => toggleMenu(false)}>Login</button>
               </Link>
             </>
-          }
+          )}
         </div>
         <div className="closeMenu" onClick={() => toggleMenu(false)}>
           <FaXmark className="closeIcon" />
@@ -43,13 +49,12 @@ const Menu = () => {
       <div className="menus">
         <ul className="contents">
           <li onClick={() => toggleMenu(false)}>
-            <Link to="/feed">
-              <FaNewspaper className="plusIcon" />
-              Newsfeed
+            <Link to="/websites">
+              <FaGlobe className="plusIcon" />
+              Websites
             </Link>
           </li>
-          {
-            (userData?.role == 'Moderator' || userData?.role == 'Admin') &&
+          {(userData?.role == "Moderator" || userData?.role == "Admin") && (
             <>
               <p>MOD ACCESS</p>
               <li onClick={() => toggleMenu(false)}>
@@ -77,9 +82,8 @@ const Menu = () => {
                 </Link>
               </li>
             </>
-          }
-          {
-            (userData?.role == 'Admin') &&
+          )}
+          {userData?.role == "Admin" && (
             <>
               <p>ADMIN ACCESS</p>
               <li onClick={() => toggleMenu(false)}>
@@ -89,20 +93,23 @@ const Menu = () => {
                 </Link>
               </li>
             </>
-          }
+          )}
         </ul>
         <div className="menuFooter">
-          <p className="visits">Total Views: <span>{ views }</span></p>
-          {
-            userData &&
+          <p className="visits">
+            Total Views: <span>{views}</span>
+          </p>
+          {userData && (
             <Link to="/login">
-              <button className="logoutBtn" onClick={handleLogout}>Logout</button>
+              <button className="logoutBtn" onClick={handleLogout}>
+                Logout
+              </button>
             </Link>
-          }
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
