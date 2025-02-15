@@ -1,13 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const viewModel = require('../database/models/view');
-const resObject = require('../configs/response');
-const { visitCountId } = require('../configs/server-config.json');
+const { views } = require("../controllers/views-controller");
 
-router.get('/views', async (req, res) => {
-  // await viewModel.findOneAndUpdate({ _id: visitCountId }, { count: 0 }, { new: true });
-  const incremented = await viewModel.findOneAndUpdate({ _id: visitCountId }, { $inc: { count: 1 }}, { new: true });
-  res.json(resObject(incremented, true));
-})
+router.get("/views", views);
 
-module.exports = router
+module.exports = router;

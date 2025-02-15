@@ -42,10 +42,9 @@ app.use("/api/fbpages", require("./routes/fbpage"));
 app.use("/api/fbpages", require("./routes/fbpage"));
 app.use("/api/posts", require("./routes/post-page"));
 
-
-io.on("connection", (socket)=>{
-  console.log(socket.id)
-})
+io.on("connection", socket => {
+  console.log(socket.id);
+});
 
 // Database connection
 connectMongoDB()
@@ -56,12 +55,13 @@ connectMongoDB()
     //   .then(d => {});
 
     // Start the server
+  })
+  .catch(e => {
+    console.log("Database connection error.");
+    // process.exit(1);
+
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}.`);
       console.log(`Frontend: ${frontend}`);
     });
-  })
-  .catch(e => {
-    console.log("Database connection error.");
-    process.exit(1);
   });
