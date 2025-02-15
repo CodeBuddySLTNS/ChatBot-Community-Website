@@ -597,7 +597,12 @@ header .mode{
   width: 100%;
   aspect-ratio: 1/0.3;
   max-height: 150px;
-  background: var(--darkColor);
+  border-radius: 5px;
+  border: 1px solid var(--darkColor);
+  background-color: var(--darkColor);
+  background-image: url('./assets/cb.jpeg');
+  background-position: center;
+  background-size: contain;
 }
 .communityInfo .description{
   margin: 8px 0;
