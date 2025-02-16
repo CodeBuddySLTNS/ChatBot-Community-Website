@@ -78,6 +78,7 @@ function App() {
         <Router>
           <Header />
           <Menu />
+          <div className="movingBackground"></div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/websites" element={<Websites />} />
