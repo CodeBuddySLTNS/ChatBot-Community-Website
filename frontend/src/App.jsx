@@ -1,9 +1,9 @@
 import { useState, createContext, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useFetch } from "./hooks/Requests";
 import { useQuery } from "@tanstack/react-query";
 import { useMainStore } from "./store";
-import config from "../config.json";
+import Config from "../config.json";
+import Axios from "axios";
 
 // pages
 import Home from "./views/Home";
@@ -42,19 +42,19 @@ function App() {
   };
 
   const fetchUser = async () => {
-    const url = config.production
-      ? `${config.server}/user`
-      : `${config.devServer}/user`;
-    const response = await fetch(url);
-    return response.json();
+    const url = Config.production
+      ? `${Config.server}/user`
+      : `${Config.devServer}/user`;
+    const response = await Axios.get(url);
+    return response;
   };
 
   const fetchViews = async () => {
-    const url = config.production
-      ? `${config.server}/views`
-      : `${config.devServer}/views`;
-    const response = await fetch(url);
-    return response.json();
+    const url = Config.production
+      ? `${Config.server}/views`
+      : `${Config.devServer}/views`;
+    const response = await Axios.get(url);
+    return response;
   };
 
   const { data: user } = useQuery({

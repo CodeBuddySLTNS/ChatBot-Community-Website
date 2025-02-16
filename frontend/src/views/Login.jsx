@@ -10,33 +10,38 @@ import Axios from "axios";
 import Config from "../../config.json";
 
 const schema = Joi.object({
-  username: Joi.string().required().messages({ 'any.required': 'Username is required.' }),
-  password: Joi.string().required().messages({ 'any.required': "Password is required." })
+  username: Joi.string()
+    .label("Username")
+    .required()
+    .messages({ "any.required": "Username is required." }),
+  password: Joi.string()
+    .label("Password")
+    .required()
+    .messages({ "any.required": "Password is required." })
 });
 
 const Login = () => {
   const { setUserData, setActive } = useContext(ContextData);
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loginError, setLoginError] = useState(null);
 
   const postRequest = async payload => {
     const serverOrigin = Config.production ? Config.server : Config.devServer;
     const token = localStorage.getItem("token");
-    const { data } = await Axios.post(`${serverOrigin}/login`, payload, {
+    const response = await Axios.post(`${serverOrigin}/login`, payload, {
       headers: {
         Authentication: `Bearer ${token}`
       }
     });
 
-    return data;
+    return response.data;
   };
 
-  const { loading, data, error, postData } = usePost("/login");
   const {
     mutateAsync: login,
     data: loginData,
     isPending,
-    error: loginError
+    error
   } = useMutation({
     mutationFn: postRequest
   });
@@ -66,7 +71,13 @@ const Login = () => {
       localStorage.setItem("token", loginData.response.token);
       navigate("/");
     }
-  }, [data]);
+  }, [loginData]);
+
+  useEffect(() => {
+    if (error) {
+      setLoginError(error.response?.data);
+    }
+  }, [error]);
 
   return (
     <div className="login">
@@ -76,20 +87,23 @@ const Login = () => {
           Username:
           <input {...register("username")} type="text" />
           {errors.username && <p>{errors.username.message}</p>}
-          {loginData?.response?.error?.username && <p>User not found.</p>}
+          {loginError?.errors?.username && <p>User not found.</p>}
         </label>
         <label>
           Password:
           <input {...register("password")} type="password" />
           {errors.password && <p>{errors.password.message}</p>}
-          {loginData?.response?.error?.password && <p>Incorrect password.</p>}
+          {loginError?.errors?.password && <p>Incorrect password.</p>}
         </label>
         <div className="remember">
           <input type="checkbox" />
           Remember me
         </div>
-        <button>{isPending ? "Logging in..." : "Login"}</button>
-        {loginError && <p>Something went wrong.</p>}
+        <button disabled={isPending}>
+          {isPending ? "Logging in..." : "Login"}
+        </button>
+        {loginError?.errors?.server && <p>Something went wrong.</p>}
+        {error?.code === "ERR_NETWORK" && <p>Network timeout.</p>}
         <div className="option">
           <p>Don't have an account? </p>
           <Link to="/signup">Signup</Link>

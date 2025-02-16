@@ -1,11 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ContextData } from "../App";
-import { usePost } from "../hooks/Requests";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { useMainStore } from "../store";
 import Joi from "joi";
+import Axios from "axios";
+import Config from "../../config.json";
 
 const schema = Joi.object({
   name: Joi.string().min(3).max(20).label("Name").required(),
@@ -15,31 +17,39 @@ const schema = Joi.object({
 });
 
 const Signup = () => {
-  const { setUserData, setActive } = useContext(ContextData);
+  const { setActive } = useContext(ContextData);
+  const [signupError, setSignupError] = useState(null);
+  const setUser = useMainStore(state => state.setUser);
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
 
-  const { loading, data, error, postData } = usePost("/signup");
-  const { isLoading } = useQuery("/signup");
+  const postRequest = async payload => {
+    const serverOrigin = Config.production ? Config.server : Config.devServer;
+    const token = localStorage.getItem("token");
+
+    const response = await Axios.post(`${serverOrigin}/signup`, payload, {
+      headers: {
+        Authentication: `Bearer ${token}`
+      }
+    });
+
+    return response.data;
+  };
+
+  const {
+    mutateAsync: signup,
+    data: signupData,
+    isPending,
+    error
+  } = useMutation({ mutationFn: postRequest });
 
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({
-    resolver: joiResolver(schema)
-  });
+  } = useForm({ resolver: joiResolver(schema) });
 
   const onSubmit = data => {
-    // const credentials = {
-    //   name: nameRef.current.value.trim(),
-    //   img: userImgRef.current.value.trim(),
-    //   username: usernameRef.current.value.trim(),
-    //   password: passwordRef.current.value.trim()
-    // };
-    // postData(data);
-
-    console.log(data);
+    signup(data);
   };
 
   useEffect(() => {
@@ -47,12 +57,18 @@ const Signup = () => {
   }, []);
 
   useEffect(() => {
-    if (data?.success) {
-      setUserData(data.response);
-      localStorage.setItem("token", data.response.token);
+    if (signupData?.success) {
+      setUser(signupData.response);
+      localStorage.setItem("token", signupData.response.token);
       navigate("/");
     }
-  }, [data]);
+  }, [signupData]);
+
+  useEffect(() => {
+    if (error) {
+      setSignupError(error.response?.data);
+    }
+  }, [error]);
 
   return (
     <div className="login">
@@ -61,25 +77,29 @@ const Signup = () => {
         <label>
           Name:
           <input type="text" {...register("name")} />
+          {errors.name && <p>{errors.name.message}</p>}
         </label>
-        {errors.name && <p>errors.name.message</p>}
         <label>
           User Photo (imgur/optional):
           <input type="text" {...register("img")} />
+          {errors.img && <p>{errors.img.message}</p>}
         </label>
-        {errors.img && <p>errors.img.message</p>}
         <label>
           Username:
           <input type="text" {...register("username")} />
+          {errors.username && <p>{errors.username.message}</p>}
+          {signupError?.errors?.username && <p>Username already exist.</p>}
         </label>
-        {errors.username && <p>errors.username.message</p>}
         <label>
           Password:
           <input type="password" {...register("password")} />
+          {errors.password && <p>{errors.password.message}</p>}
         </label>
-        {errors.password && <p>errors.password.message</p>}
-        <button>Signup</button>
-        {error && <p>Something went wrong.</p>}
+        <button disabled={isPending}>
+          {isPending ? "Signing in..." : "Signup"}
+        </button>
+        {signupError?.errors?.server && <p>Something went wrong.</p>}
+        {error?.code === "ERR_NETWORK" && <p>Network timeout.</p>}
         <div className="option">
           <p>Already have an account? </p>
           <Link to="/login">Login</Link>
