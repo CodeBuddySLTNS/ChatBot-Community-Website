@@ -1,0 +1,109 @@
+{
+  "success": true,
+  "message": "",
+  "response": [
+    {
+      "_id": "67276b0fa9b17190515fc72e",
+      "name": "TOSHIA CHATBOT",
+      "owner": "Marjhun B.",
+      "link": "https://www.facebook.com/profile.php?id=61566991483019",
+      "img": "https://i.imgur.com/CeRHgI6.jpeg",
+      "createdAt": "2024-11-03T12:22:39.631Z",
+      "updatedAt": "2024-11-03T12:22:39.631Z",
+      "__v": 0
+    },
+    {
+      "_id": "672775a8a9b17190515fc81f",
+      "name": "Playsbot",
+      "owner": "Kenlie Jugarap",
+      "link": "https://www.facebook.com/playsbot",
+      "img": "https://i.imgur.com/HTtrECM.jpeg",
+      "createdAt": "2024-11-03T13:07:52.184Z",
+      "updatedAt": "2024-11-03T13:07:52.184Z",
+      "__v": 0
+    },
+    {
+      "_id": "67277703a9b17190515fc82e",
+      "name": "Peko",
+      "owner": "Yan Maglinte",
+      "link": "https://www.facebook.com/pekoai",
+      "img": "https://i.imgur.com/yzUWsJL.jpeg",
+      "createdAt": "2024-11-03T13:13:39.744Z",
+      "updatedAt": "2024-11-03T13:13:39.744Z",
+      "__v": 0
+    },
+    {
+      "_id": "672e18f8f706180273d95695",
+      "name": "HeruBot",
+      "owner": "Jay Mar",
+      "link": "https://www.facebook.com/profile.php?id=61566860461516",
+      "img": "https://i.imgur.com/mzVVFdw.jpeg",
+      "createdAt": "2024-11-08T13:58:16.835Z",
+      "updatedAt": "2024-11-08T13:58:16.835Z",
+      "__v": 0
+    },
+    {
+      "_id": "672e1c06f706180273d956ab",
+      "name": "Wyumi",
+      "owner": "Kenneth Aceberos",
+      "link": "https://www.facebook.com/wyumibot",
+      "img": "https://i.imgur.com/M5UXARF.jpeg",
+      "createdAt": "2024-11-08T14:11:18.405Z",
+      "updatedAt": "2024-11-08T14:11:18.405Z",
+      "__v": 0
+    },
+    {
+      "_id": "672e2317f706180273d956da",
+      "name": "Mocha Bot",
+      "owner": "Mark John Sombra",
+      "link": "https://www.facebook.com/M0chaBot",
+      "img": "https://i.imgur.com/8d1RYSX.jpeg",
+      "createdAt": "2024-11-08T14:41:27.428Z",
+      "updatedAt": "2024-11-08T14:41:27.428Z",
+      "__v": 0
+    },
+    {
+      "_id": "672f168a1df1114b6cd4b69f",
+      "name": "Metallic Chrome V2",
+      "owner": "Makoy",
+      "link": "https://www.facebook.com/metallichromev2",
+      "img": "https://i.imgur.com/XQeCrTy.jpeg",
+      "createdAt": "2024-11-09T08:00:10.167Z",
+      "updatedAt": "2024-11-09T08:00:10.167Z",
+      "__v": 0
+    },
+    {
+      "_id": "673029b41df1114b6cd4bc45",
+      "name": "Beluga",
+      "owner": "Anonymous",
+      "link": "https://www.facebook.com/profile.php?id=61567757543707",
+      "img": "https://i.imgur.com/fBcvvtJ.jpeg",
+      "createdAt": "2024-11-10T03:34:12.509Z",
+      "updatedAt": "2024-11-10T03:34:12.509Z",
+      "__v": 0
+    },
+    {
+      "_id": "673c80c0c48ef52e05b0999c",
+      "name": "Cyni Bot",
+      "owner": "Ronald Allen Albania",
+      "link": "https://www.facebook.com/cynibot",
+      "img": "https://i.ibb.co/LJdDmYs/463483537-122190651560073495-6084679489341041077-n.jpg",
+      "createdAt": "2024-11-19T12:12:48.203Z",
+      "updatedAt": "2024-11-19T12:12:48.203Z",
+      "__v": 0
+    },
+    {
+      "_id": "673c8804c48ef52e05b09aa7",
+      "name": "Kaiz AI",
+      "owner": "Kaizenji",
+      "link": "https://www.facebook.com/kaiz.ai.bot",
+      "img": "https://i.imgur.com/1POVEhH.jpeg",
+      "createdAt": "2024-11-19T12:43:48.660Z",
+      "updatedAt": "2024-11-19T12:43:48.660Z",
+      "__v": 0
+    }
+  ],
+  "errors": null,
+  "dev": "Juan Tamad",
+  "devFb": "@thejuantamad05"
+}
