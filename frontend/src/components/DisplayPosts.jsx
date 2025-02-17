@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { ContextData } from "../App";
 import { usePost } from "../hooks/Requests";
+import DisplayDate from "../utils/DisplayDate";
+
 import {
   FaThumbsUp,
   FaRegThumbsUp,
@@ -93,7 +95,7 @@ const DisplayPosts = ({ posts, retry }) => {
                   <div className="info">
                     <p>{post.author.name}</p>
                     <span>
-                      {post.author.role} • {post.date}
+                      {post.author.role} • {DisplayDate(post.createdAt)}
                     </span>
                   </div>
                 </div>

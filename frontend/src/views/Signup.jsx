@@ -6,7 +6,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { useMutation } from "@tanstack/react-query";
 import { useMainStore } from "../store";
 import Joi from "joi";
-import Axios from "axios";
+import Axios from "../utils/Axios";
 import Config from "../../config.json";
 
 const schema = Joi.object({
@@ -23,14 +23,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const postRequest = async payload => {
-    const serverOrigin = Config.production ? Config.server : Config.devServer;
-    const token = localStorage.getItem("token");
-
-    const response = await Axios.post(`${serverOrigin}/signup`, payload, {
-      headers: {
-        Authentication: `Bearer ${token}`
-      }
-    });
+    const response = await Axios.post(`/signup`, payload);
 
     return response.data;
   };

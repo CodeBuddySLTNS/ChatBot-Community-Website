@@ -12,7 +12,7 @@ const Newsfeed = () => {
     return response.data;
   };
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error,refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts
   });
@@ -33,14 +33,15 @@ const Newsfeed = () => {
       <div className="errorContainer">
         <div className="errorBox">
           <p> Failed to load posts.</p>
-          <button onClick={null}>Retry</button>
+          <button onClick={refetch}>Retry</button>
         </div>
       </div>
     );
 
   return (
     <div className="container">
-      <DisplayPosts posts={data?.response} retry={null} />
+      <DisplayPosts posts={data?.response}
+      retry={refetch} />
     </div>
   );
 };
