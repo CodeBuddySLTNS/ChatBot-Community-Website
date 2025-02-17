@@ -11,10 +11,6 @@ const announceSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    date: {
-      type: Date,
-      required: true
-    },
     likes: {
       type: Number,
       required: true

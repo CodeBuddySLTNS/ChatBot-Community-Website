@@ -10,14 +10,7 @@
 const resObject = (data, success, message) => ({
   success: success,
   message: message || "",
-  response: success
-    ? data
-    : {
-        error: {
-          message: message,
-          ...data
-        }
-      },
+  response: success ? data : null,
   errors: success ? null : { ...data },
   dev: "Juan Tamad",
   devFb: "@thejuantamad05"

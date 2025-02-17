@@ -29,6 +29,10 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(authenticate);
+app.use((req, res, next) => {
+  console.log(req.path);
+  next();
+});
 
 // routes
 app.get("/", (req, res) => res.send("ChatBot Community Server 🤖"));
@@ -58,10 +62,10 @@ connectMongoDB()
   })
   .catch(e => {
     console.log("Database connection error.");
-    // process.exit(1);
+    process.exit(1);
 
-    server.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}.`);
-      console.log(`Frontend: ${frontend}`);
-    });
+    // server.listen(PORT, () => {
+    //   console.log(`Server running on port ${PORT}.`);
+    //   console.log(`Frontend: ${frontend}`);
+    // });
   });

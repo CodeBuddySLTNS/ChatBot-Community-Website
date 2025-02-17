@@ -4,13 +4,22 @@ const resObject = require("../configs/response");
 
 const getPosts = async (req, res) => {
   try {
+    // return res.json(require("../sample_data/posts.json"));
+
     const { id } = req.query;
     if (id) {
-      const post = await postModel.findOne({ _id: id }).populate("author").populate("comments.author");
+      const post = await postModel
+        .findOne({ _id: id })
+        .populate("author")
+        .populate("comments.author");
       res.json(resObject(post, true));
       return;
     }
-    const posts = await postModel.find({}).sort({ createdAt: -1 }).populate("author").populate("comments.author");
+    const posts = await postModel
+      .find({})
+      .sort({ createdAt: -1 })
+      .populate("author")
+      .populate("comments.author");
     res.json(resObject(posts, true));
   } catch (e) {
     res.json(resObject(null, false, "Failed to fetch posts."));
@@ -23,11 +32,19 @@ const addPost = async (req, res) => {
     const post = req.body;
     const { userId } = res.locals;
 
-    if (!post.message) return res.json(resObject(null, false, "Message of post is mandatory."));
+    if (!post.message)
+      return res.json(resObject(null, false, "Message of post is mandatory."));
 
     const user = await userModel.findOne({ _id: userId });
 
-    if (!user) return res.json(resObject({ authError: true }, false, "You are not authorized to do this action."));
+    if (!user)
+      return res.json(
+        resObject(
+          { authError: true },
+          false,
+          "You are not authorized to do this action."
+        )
+      );
 
     post.author = user._id;
     post.date = new Date();
@@ -45,18 +62,32 @@ const addPostComment = async (req, res) => {
     const data = req.body;
     const { userId } = res.locals;
 
-    if (!data.postId || !data.message) return res.json(resObject(null, false, "Message and postId of post is mandatory."));
+    if (!data.postId || !data.message)
+      return res.json(
+        resObject(null, false, "Message and postId of post is mandatory.")
+      );
 
     const user = await userModel.findOne({ _id: userId });
 
-    if (!user) return res.json(resObject({ authError: true }, false, "You are not authorized to do this action."));
+    if (!user)
+      return res.json(
+        resObject(
+          { authError: true },
+          false,
+          "You are not authorized to do this action."
+        )
+      );
 
     data.author = user._id;
     data.date = new Date();
 
     const post = await postModel.findOne({ _id: data.postId });
     const addComment = await postModel
-      .findOneAndUpdate({ _id: data.postId }, { comments: [...post.comments, data] }, { new: true })
+      .findOneAndUpdate(
+        { _id: data.postId },
+        { comments: [...post.comments, data] },
+        { new: true }
+      )
       .populate("author")
       .populate("comments.author");
 
@@ -72,11 +103,19 @@ const likePost = async (req, res) => {
     const data = req.body;
     const { userId } = res.locals;
 
-    if (!data.postId) return res.json(resObject(null, false, "PostId of post is mandatory."));
+    if (!data.postId)
+      return res.json(resObject(null, false, "PostId of post is mandatory."));
 
     const user = await userModel.findOne({ _id: userId });
 
-    if (!user) return res.json(resObject({ authError: true }, false, "You are not authorized to do this action."));
+    if (!user)
+      return res.json(
+        resObject(
+          { authError: true },
+          false,
+          "You are not authorized to do this action."
+        )
+      );
 
     const filter = { _id: data.postId };
 
