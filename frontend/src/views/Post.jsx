@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useFetch, usePost } from "../hooks/Requests";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { ContextData } from "../App";
+import Axios from "../utils/Axios";
+
 import { BiRefresh } from "react-icons/bi";
 import { RxDotsHorizontal } from "react-icons/rx";
 import {
@@ -21,7 +23,15 @@ const Post = () => {
   const { userData } = useContext(ContextData);
   const { id } = useParams();
 
-  const { loading, data, error, retry } = useFetch(`/api/posts/?id=${id}`);
+  const fetchPostData = async () => {
+    const response = await Axios.get(`/api/posts/?id=${id}`);
+    return response.data;
+  };
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["post"],
+    queryFn: fetchPostData
+  });
 
   const {
     loading: postloading,
@@ -49,7 +59,7 @@ const Post = () => {
     likePost({ postId: id });
     setPostId(id);
   };
-  
+
   const handleComment = () => {
     if (commentRef.current.value === "") return;
     const reqdata = {
@@ -62,7 +72,7 @@ const Post = () => {
 
   const handleRefresh = () => {
     setPostInfo({ loading: true });
-    retry();
+    refetch();
   };
 
   const scrollToBottom = () => {
@@ -79,6 +89,7 @@ const Post = () => {
   };
 
   useEffect(() => {
+    console.log(data)
     if (data?.success) {
       setPostInfo({
         data: data.response,
@@ -121,7 +132,7 @@ const Post = () => {
     }
   }, [likeerror, posterror]);
 
-  if (postInfo.loading)
+  if (isLoading)
     return (
       <div className="loaderContainer">
         <div className="loader"></div>
@@ -133,7 +144,7 @@ const Post = () => {
       <div className="errorContainer">
         <div className="errorBox">
           <p> Failed to load post.</p>
-          <button onClick={retry}>Retry</button>
+          <button onClick={refetch}>Retry</button>
         </div>
       </div>
     );
@@ -154,7 +165,7 @@ const Post = () => {
       </div>
       <div className="post">
         <div className="postHeading">
-          <div onClick={() => navigate(-1)}>{"< Back"}</div>
+          <div onClick={() => navigate(-1)}>{"< Go Back"}</div>
           <div></div>
           <BiRefresh className="icon" onClick={handleRefresh} />
         </div>
@@ -189,7 +200,7 @@ const Post = () => {
                 <>...</>
               ) : (
                 <>
-                  {postInfo?.data?.whoLiked.includes(userData?._id) ? (
+                  {postInfo?.data?.whoLiked?.includes(userData?._id) ? (
                     <FaThumbsUp className="icon" />
                   ) : (
                     <FaRegThumbsUp className="icon" />

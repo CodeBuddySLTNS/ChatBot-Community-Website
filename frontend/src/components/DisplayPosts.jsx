@@ -27,6 +27,14 @@ const DisplayPosts = ({ posts, retry }) => {
   const [authError, setAuthError] = useState(null);
   const [copiedLink, setLink] = useState(null);
 
+  const initializer = (array = []) => {
+    const object = {};
+    array.map((_, index) => (object[index] = false));
+    return object;
+  };
+
+  const [postSeemore, setPostSeeMore] = useState(initializer(posts));
+
   const handleLike = id => {
     postData({ postId: id });
     setPostId(id);
@@ -104,7 +112,24 @@ const DisplayPosts = ({ posts, retry }) => {
                 </div>
               </div>
               <div className="postBody">
-                <pre>{post.message}</pre>
+                <pre>
+                  {post.message.substring(
+                    0,
+                    postSeemore[id] ? post.message.length : 110
+                  )}
+                  {post.message.length > 110 && (
+                    <span
+                      onClick={() =>
+                        setPostSeeMore(prev => ({
+                          ...prev,
+                          [id]: !prev[id]
+                        }))
+                      }
+                    >
+                      {postSeemore[id] ? " ...See less" : " ...See more"}
+                    </span>
+                  )}
+                </pre>
               </div>
               <div className="postAction">
                 <li onClick={() => handleLike(post._id)}>

@@ -883,6 +883,9 @@ header .mode {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
+.postBody pre span {
+  color: gray;
+}
 .postContent .postAction {
   width: 100%;
   border-radius: 10px;
