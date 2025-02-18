@@ -22,7 +22,7 @@ const getPosts = async (req, res) => {
       .populate("comments.author");
     res.json(resObject(posts, true));
   } catch (e) {
-    res.json(resObject(null, false, "Failed to fetch posts."));
+    res.status(500).json(resObject(null, false, "Failed to fetch posts."));
     console.log(e);
   }
 };

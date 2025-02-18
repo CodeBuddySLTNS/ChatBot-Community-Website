@@ -11,7 +11,7 @@ const getAnnouncements = async (req, res) => {
     const announcements = await announceModel.find({}).sort({ createdAt: -1 });
     res.json(resObject(announcements, true));
   } catch (e) {
-    res.json(resObject(null, false, "Failed to fetch announcements."));
+    res.status(500).json(resObject(null, false, "Failed to fetch announcements."));
     console.log(e);
   }
 };

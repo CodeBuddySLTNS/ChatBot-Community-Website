@@ -12,17 +12,9 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const frontend = process.env.FRONTEND || "http://localhost:5173";
+const frontend = [process.env.FRONTEND, "http://localhost:5173"];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (origin === frontend) {
-      return callback(null, true);
-    } else {
-      return callback(null, false);
-    }
-  }
-};
+const corsOptions = { origin: frontend };
 
 // middlewares
 app.use(cors());
@@ -62,10 +54,10 @@ connectMongoDB()
   })
   .catch(e => {
     console.log("Database connection error.");
-    process.exit(1);
+    //process.exit(1);
 
-    // server.listen(PORT, () => {
-    //   console.log(`Server running on port ${PORT}.`);
-    //   console.log(`Frontend: ${frontend}`);
-    // });
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}.`);
+      console.log(`Frontend: ${frontend}`);
+    });
   });
