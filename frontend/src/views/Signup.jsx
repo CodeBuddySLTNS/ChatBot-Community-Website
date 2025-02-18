@@ -53,7 +53,9 @@ const Signup = () => {
     if (signupData?.success) {
       setUser(signupData.response);
       localStorage.setItem("token", signupData.response.token);
-      navigate("/");
+      setTimeout(function () {
+        navigate("/");
+      }, 1000);
     }
   }, [signupData]);
 

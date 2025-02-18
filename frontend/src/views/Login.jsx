@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ContextData } from "../App";
-import { usePost } from "../hooks/Requests";
+import { useMainStore } from "../store";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
@@ -21,9 +21,10 @@ const schema = Joi.object({
 });
 
 const Login = () => {
-  const { setUserData, setActive } = useContext(ContextData);
-  const navigate = useNavigate();
+  const { setActive } = useContext(ContextData);
   const [loginError, setLoginError] = useState(null);
+  const setUser = useMainStore(state => state.setUser);
+  const navigate = useNavigate();
 
   const postRequest = async payload => {
     const response = await Axios.post(`/login`, payload);
@@ -61,7 +62,7 @@ const Login = () => {
 
   useEffect(() => {
     if (loginData?.success) {
-      setUserData(loginData.response);
+      setUser(loginData.response);
       localStorage.setItem("token", loginData.response.token);
       navigate("/");
     }
