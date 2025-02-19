@@ -8,7 +8,7 @@ const { Server } = require("socket.io");
 const authenticate = require("./middlewares/authentication");
 const connectMongoDB = require("./database/connectMongoDB");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6870;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
