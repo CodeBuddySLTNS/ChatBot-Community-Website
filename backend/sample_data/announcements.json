@@ -3,6 +3,29 @@
   "message": "",
   "response": [
     {
+      "_id": "67b50e8355eb3ee91ffb078b",
+      "author": {
+        "_id": "6799ca8fead756404411e023",
+        "id": 69,
+        "name": "Ace",
+        "img": "",
+        "username": "Itzmeac3",
+        "password": "$2a$10$JLuZWWhdAEPlq2JE6rgEfegSyUcikSJiaPMY8O7J1AANq0PEBaLLa",
+        "role": "Member",
+        "liked": [],
+        "createdAt": "2025-01-29T06:28:31.263Z",
+        "updatedAt": "2025-01-29T06:28:31.263Z",
+        "__v": 0
+      },
+      "message": "Let's go",
+      "date": "2025-02-18T22:49:39.432Z",
+      "likes": 1,
+      "whoLiked": ["6725c303357370b452dbd4bf"],
+      "createdAt": "2025-02-18T22:49:39.470Z",
+      "updatedAt": "2025-02-18T22:50:03.592Z",
+      "__v": 0
+    },
+    {
       "_id": "676b70d4b7701a53c4ee3c42",
       "message": "Bold rebel",
       "author": {

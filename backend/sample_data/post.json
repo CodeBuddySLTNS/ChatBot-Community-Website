@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "message": "",
+  "response": {
+    "_id": "6799caa3ead756404411e03a",
+    "message": "Test",
+    "date": "2025-01-29T00:00:00.000Z",
+    "likes": 1,
+    "whoLiked": ["6725c303357370b452dbd4bf"],
+    "author": {
+      "_id": "6799ca8fead756404411e023",
+      "id": 69,
+      "name": "Ace",
+      "img": "",
+      "username": "Itzmeac3",
+      "password": "$2a$10$JLuZWWhdAEPlq2JE6rgEfegSyUcikSJiaPMY8O7J1AANq0PEBaLLa",
+      "role": "Member",
+      "liked": [],
+      "createdAt": "2025-01-29T06:28:31.263Z",
+      "updatedAt": "2025-01-29T06:28:31.263Z",
+      "__v": 0
+    },
+    "comments": [
+      {
+        "message": "Ayy weeh",
+        "date": "Tue Feb 18 2025 22:51:23 GMT+0000 (Coordinated Universal Time)",
+        "replies": [],
+        "whoLiked": [],
+        "author": {
+          "_id": "6725c303357370b452dbd4bf",
+          "id": 2,
+          "name": "Juan Tamad",
+          "img": "https://i.imgur.com/shsLyFB.jpeg",
+          "username": "Juantamad",
+          "password": "$2a$10$dh2WNqhNFz6gDvYu77lZMezq/b0gre1i0O82ht68t4i.PtftKoyYO",
+          "role": "Admin",
+          "liked": [],
+          "createdAt": "2024-11-02T06:13:23.733Z",
+          "updatedAt": "2024-11-05T12:24:15.668Z",
+          "__v": 0
+        },
+        "_id": "67b50eeb55eb3ee91ffb07ee",
+        "createdAt": "2025-02-19T09:47:31.858Z",
+        "updatedAt": "2025-02-19T09:47:31.858Z"
+      },
+      {
+        "message": "Haha",
+        "date": "Wed Feb 19 2025 09:47:31 GMT+0000 (Coordinated Universal Time)",
+        "whoLiked": [],
+        "author": {
+          "_id": "6725c303357370b452dbd4bf",
+          "id": 2,
+          "name": "Juan Tamad",
+          "img": "https://i.imgur.com/shsLyFB.jpeg",
+          "username": "Juantamad",
+          "password": "$2a$10$dh2WNqhNFz6gDvYu77lZMezq/b0gre1i0O82ht68t4i.PtftKoyYO",
+          "role": "Admin",
+          "liked": [],
+          "createdAt": "2024-11-02T06:13:23.733Z",
+          "updatedAt": "2024-11-05T12:24:15.668Z",
+          "__v": 0
+        },
+        "_id": "67b5a8b3a1c05cfb8a7ed889",
+        "createdAt": "2025-02-19T09:47:31.858Z",
+        "updatedAt": "2025-02-19T09:47:31.858Z",
+        "replies": []
+      }
+    ],
+    "createdAt": "2025-01-29T06:28:51.572Z",
+    "updatedAt": "2025-02-19T09:47:31.858Z",
+    "__v": 0
+  },
+  "errors": null,
+  "dev": "Juan Tamad",
+  "devFb": "@thejuantamad05"
+}

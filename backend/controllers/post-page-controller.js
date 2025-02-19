@@ -4,7 +4,7 @@ const resObject = require("../configs/response");
 
 const getPosts = async (req, res) => {
   try {
-    // return res.json(require("../sample_data/posts.json"));
+    //return res.json(require("../sample_data/post.json"));
 
     const { id } = req.query;
     if (id) {

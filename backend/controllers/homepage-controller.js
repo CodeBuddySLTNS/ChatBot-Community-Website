@@ -1,17 +1,19 @@
-// https://i.imgur.com/hcz65Qd.jpeg
-// https://i.imgur.com/nK2ZdJM.jpeg
-// 'Hello everyone! we are happy to inform you that this website is now the official website for our community.'
 const announceModel = require("../database/models/announcement");
 const userModel = require("../database/models/user");
 const resObject = require("../configs/response");
 
 const getAnnouncements = async (req, res) => {
   try {
-    // return res.json(require("../sample_data/announcements.json"));
-    const announcements = await announceModel.find({}).sort({ createdAt: -1 });
+    //return res.json(require("../sample_data/announcements.json"));
+    const announcements = await announceModel
+      .find({})
+      .sort({ createdAt: -1 })
+      .populate("author");
     res.json(resObject(announcements, true));
   } catch (e) {
-    res.status(500).json(resObject(null, false, "Failed to fetch announcements."));
+    res
+      .status(500)
+      .json(resObject(null, false, "Failed to fetch announcements."));
     console.log(e);
   }
 };

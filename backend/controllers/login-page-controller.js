@@ -50,23 +50,8 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
-        return res.json(
-      resObject(
-        {
-          _id: "found._id",
-          name: "found.name",
-          username: "found.username",
-          role: "found.role",
-          token: "token"
-        },
-        true,
-        "Logged In."
-      )
-    );
-
     const newUserData = req.body;
     newUserData.role = "Member";
-    newUserData.liked = [];
 
     if (!newUserData.name || !newUserData.username || !newUserData.password)
       return res.json(
