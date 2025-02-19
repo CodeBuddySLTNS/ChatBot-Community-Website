@@ -4,6 +4,7 @@ import { useFetch, usePost } from "../hooks/Requests";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { ContextData } from "../App";
 import Axios from "../utils/Axios";
+import DisplayDate from "../utils/DisplayDate";
 
 import { BiRefresh } from "react-icons/bi";
 import { RxDotsHorizontal } from "react-icons/rx";
@@ -28,7 +29,7 @@ const Post = () => {
     return response.data;
   };
 
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["post"],
     queryFn: fetchPostData
   });
@@ -47,7 +48,7 @@ const Post = () => {
     postData: likePost
   } = usePost(`/api/posts/likepost`);
 
-  const [postInfo, setPostInfo] = useState({ loading: true });
+  const [postInfo, setPostInfo] = useState(null);
   const [copiedLink, setLink] = useState(null);
   const [postId, setPostId] = useState(null);
   const [authError, setAuthError] = useState(null);
@@ -71,7 +72,6 @@ const Post = () => {
   };
 
   const handleRefresh = () => {
-    setPostInfo({ loading: true });
     refetch();
   };
 
@@ -89,24 +89,16 @@ const Post = () => {
   };
 
   useEffect(() => {
-    console.log(data)
+    console.log(data);
     if (data?.success) {
-      setPostInfo({
-        data: data.response,
-        loading: false
-      });
+      console.log(data);
+      setPostInfo(data.response);
     }
     if (likedata?.success) {
-      setPostInfo({
-        data: likedata.response,
-        loading: false
-      });
+      setPostInfo(likedata.response);
     }
     if (postdata?.success) {
-      setPostInfo({
-        data: postdata.response,
-        loading: false
-      });
+      setPostInfo(postdata.response);
       setTimeout(function () {
         scrollToBottom();
       }, 300);
@@ -132,7 +124,7 @@ const Post = () => {
     }
   }, [likeerror, posterror]);
 
-  if (isLoading)
+  if (isLoading || isFetching)
     return (
       <div className="loaderContainer">
         <div className="loader"></div>
@@ -165,7 +157,7 @@ const Post = () => {
       </div>
       <div className="post">
         <div className="postHeading">
-          <div onClick={() => navigate(-1)}>{"< Go Back"}</div>
+          <div onClick={() => navigate(-1)}>{"< Back"}</div>
           <div></div>
           <BiRefresh className="icon" onClick={handleRefresh} />
         </div>
@@ -175,15 +167,16 @@ const Post = () => {
               <div
                 className="img"
                 style={{
-                  backgroundImage: postInfo?.data?.author?.img
-                    ? `url("${postInfo?.data?.author?.img}")`
+                  backgroundImage: postInfo?.author?.img
+                    ? `url("${postInfo?.author?.img}")`
                     : `url("${defaultProfile}")`
                 }}
               ></div>
               <div className="info">
-                <p>{postInfo?.data?.author?.name}</p>
+                <p>{postInfo?.author?.name} </p>
                 <span>
-                  {postInfo?.data?.author?.role} • {postInfo?.data?.date}
+                  {postInfo?.author?.role} •
+                  {postInfo?.date ? DisplayDate(postInfo?.date) : ""}
                 </span>
               </div>
             </div>
@@ -192,29 +185,29 @@ const Post = () => {
             </div>
           </div>
           <div className="postBody">
-            <pre>{postInfo?.data?.message}</pre>
+            <pre>{postInfo?.message}</pre>
           </div>
           <div className="postAction">
-            <li onClick={() => handleLike(postInfo?.data?._id)}>
-              {likeloading && postId === postInfo?.data?._id ? (
+            <li onClick={() => handleLike(postInfo?._id)}>
+              {likeloading && postId === postInfo?._id ? (
                 <>...</>
               ) : (
                 <>
-                  {postInfo?.data?.whoLiked?.includes(userData?._id) ? (
+                  {postInfo?.whoLiked?.includes(userData?._id) ? (
                     <FaThumbsUp className="icon" />
                   ) : (
                     <FaRegThumbsUp className="icon" />
                   )}
-                  <span>{postInfo?.data?.likes}</span>
+                  <span>{postInfo?.likes}</span>
                 </>
               )}
             </li>
             <li className="commentsBtn">
               <FaRegComment className="icon" />
-              <span>{postInfo?.data?.comments?.length}</span>
+              <span>{postInfo?.comments?.length}</span>
             </li>
-            <li onClick={() => handleCopyLink(postInfo?.data?._id)}>
-              {copiedLink === postInfo?.data?._id ? (
+            <li onClick={() => handleCopyLink(postInfo?._id)}>
+              {copiedLink === postInfo?._id ? (
                 <FaCheck className="icon linkIcon" />
               ) : (
                 <FaLink className="icon linkIcon" />
@@ -226,10 +219,10 @@ const Post = () => {
               <p>Comments</p>
             </div>
             <div className="comments" ref={scrollRef}>
-              {postInfo?.data?.comments?.length == 0 ? (
+              {postInfo?.comments?.length == 0 ? (
                 <p className="noComments">Be the first to comment.</p>
               ) : (
-                postInfo?.data?.comments?.map((comment, id) => (
+                postInfo?.comments?.map((comment, id) => (
                   <div className="comment" key={id}>
                     <div className="commentHead">
                       <div className="comAuthor">
@@ -244,7 +237,8 @@ const Post = () => {
                         <div className="info">
                           <p>{comment?.author?.name}</p>
                           <span>
-                            {comment?.author?.role} • {comment?.date}
+                            {comment?.author?.role} •{" "}
+                            {comment?.date ? DisplayDate(comment?.date) : ""}
                           </span>
                         </div>
                       </div>

@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect, useContext } from "react";
-import { ContextData } from "../App";
+import { useState, useRef, useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useMainStore } from "../store";
 import { usePost } from "../hooks/Requests";
 import DisplayDate from "../utils/DisplayDate";
 
@@ -8,7 +9,7 @@ import { FaXmark } from "react-icons/fa6";
 import defaultProfile from "../assets/defaultProfile.png";
 
 export const DisplayAnnouncements = ({ announcements, refetch }) => {
-  const { userData } = useContext(ContextData);
+  const user = useMainStore(state => state.user);
   const { loading, data, error, postData } = usePost("/api/homepage/like");
   const [current, setCurrent] = useState(announcements);
   const [announceId, setAnnounceId] = useState(null);
@@ -88,7 +89,7 @@ export const DisplayAnnouncements = ({ announcements, refetch }) => {
                 <>...</>
               ) : (
                 <>
-                  {announce.whoLiked.includes(userData?._id) ? (
+                  {announce.whoLiked.includes(user?._id) ? (
                     <FaThumbsUp />
                   ) : (
                     <FaRegThumbsUp />

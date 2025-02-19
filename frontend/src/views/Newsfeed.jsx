@@ -12,7 +12,7 @@ const Newsfeed = () => {
     return response.data;
   };
 
-  const { data, isLoading, error,refetch } = useQuery({
+  const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts
   });
@@ -21,7 +21,7 @@ const Newsfeed = () => {
     setActive({ sites: true });
   }, []);
 
-  if (isLoading)
+  if (isLoading || isFetching)
     return (
       <div className="loaderContainer">
         <div className="loader"></div>
@@ -40,8 +40,7 @@ const Newsfeed = () => {
 
   return (
     <div className="container">
-      <DisplayPosts posts={data?.response}
-      retry={refetch} />
+      <DisplayPosts posts={data?.response} retry={refetch} />
     </div>
   );
 };
