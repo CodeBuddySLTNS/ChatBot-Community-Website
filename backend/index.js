@@ -51,10 +51,13 @@ connectMongoDB()
     //   .then(d => {});
 
     // Start the server
+      server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}.`);
+      console.log(`Frontend: ${frontend}`);
   })
   .catch(e => {
     console.log("Database connection error.");
-    //process.exit(1);
+    process.exit(1);
 
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}.`);
